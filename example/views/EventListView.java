@@ -60,6 +60,8 @@ public class EventListView extends JPanel implements View
 	 */
 	private void make_frame()
 	{
+		// Sin BorderLayout la tabla no se expande
+		setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 	}
