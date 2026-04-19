@@ -6,6 +6,7 @@ import views.GuestView;
 import views.HomeView;
 import views.NewEventView;
 import views.RemoveEventView;
+import views.SearchEventView;
 
 // Controlador principal: inicializa todos los demás controladores y muestra la ventana
 public class HomeController extends Controller
@@ -16,6 +17,7 @@ public class HomeController extends Controller
 	private NewEventController    controladorNuevoEvento = new NewEventController(controladorLista);
 	private RemoveEventController controladorEliminar    = new RemoveEventController(controladorLista);
 	private GuestController       controladorInvitado    = new GuestController();
+	private SearchEventController controladorBuscar      = new SearchEventController();
 
 
 	@Override
@@ -25,6 +27,7 @@ public class HomeController extends Controller
 		controladorNuevoEvento.run();
 		controladorEliminar.run();
 		controladorInvitado.run();
+		controladorBuscar.run();
 
 		vistaInicio = new HomeView(this, mainFrame);
 		addView("HomeView", vistaInicio);
@@ -41,4 +44,5 @@ public class HomeController extends Controller
 	public EventListView   getEventListView()   { return controladorLista.getView(); }
 	public RemoveEventView getRemoveEventView() { return controladorEliminar.getView(); }
 	public GuestView       getGuestView()       { return controladorInvitado.getView(); }
+	public SearchEventView getSearchEventView() { return controladorBuscar.getView(); }
 }
