@@ -51,6 +51,8 @@ public class HomeView extends JPanel implements View
 		pestanias.addTab("New event",          controlador.getNewEventView());
 		pestanias.addTab("Events",             controlador.getEventListView());
 		pestanias.addTab("Remove Event",       controlador.getRemoveEventView());
+		pestanias.addTab("Registrar invitado", controlador.getGuestView());
+
 		// Al entrar a "Remove Event" (índice 2) recarga la tabla con los eventos actuales
 		pestanias.addChangeListener(e -> {
 			if (pestanias.getSelectedIndex() == 2)

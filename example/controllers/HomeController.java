@@ -2,6 +2,7 @@ package controllers;
 
 import core.Controller;
 import views.EventListView;
+import views.GuestView;
 import views.HomeView;
 import views.NewEventView;
 import views.RemoveEventView;
@@ -14,6 +15,7 @@ public class HomeController extends Controller
 	private EventListController   controladorLista       = new EventListController();
 	private NewEventController    controladorNuevoEvento = new NewEventController(controladorLista);
 	private RemoveEventController controladorEliminar    = new RemoveEventController(controladorLista);
+	private GuestController       controladorInvitado    = new GuestController();
 
 
 	@Override
@@ -22,6 +24,8 @@ public class HomeController extends Controller
 		controladorLista.run();
 		controladorNuevoEvento.run();
 		controladorEliminar.run();
+		controladorInvitado.run();
+
 		vistaInicio = new HomeView(this, mainFrame);
 		addView("HomeView", vistaInicio);
 		mainFrame.setVisible(true);
@@ -36,4 +40,5 @@ public class HomeController extends Controller
 	public NewEventView    getNewEventView()    { return controladorNuevoEvento.getView(); }
 	public EventListView   getEventListView()   { return controladorLista.getView(); }
 	public RemoveEventView getRemoveEventView() { return controladorEliminar.getView(); }
+	public GuestView       getGuestView()       { return controladorInvitado.getView(); }
 }
