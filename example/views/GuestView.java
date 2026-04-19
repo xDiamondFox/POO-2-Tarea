@@ -73,7 +73,7 @@ public class GuestView extends JPanel implements View
 		add(etiqueta);
 
 		campo_nombre = new JTextField();
-		campo_nombre.setBounds(180, 27, 196, 20);
+		campo_nombre.setBounds(200, 27, 176, 20);
 		add(campo_nombre);
 	}
 
