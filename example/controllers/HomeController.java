@@ -4,50 +4,36 @@ import core.Controller;
 import views.EventListView;
 import views.HomeView;
 import views.NewEventView;
+import views.RemoveEventView;
 
-
-/**
- * Main controller. It will be responsible for program's main screen behavior.
- */
-public class HomeController extends Controller 
+// Controlador principal: inicializa todos los demás controladores y muestra la ventana
+public class HomeController extends Controller
 {
-	//-----------------------------------------------------------------------
-	//		Attributes
-	//-----------------------------------------------------------------------
-	private HomeView homeView;
-	private EventListController eventListController = new EventListController();
-	private NewEventController newEventController = new NewEventController(eventListController);
-	
-	
-	//-----------------------------------------------------------------------
-	//		Methods
-	//-----------------------------------------------------------------------
+	private HomeView vistaInicio;
+
+	private EventListController   controladorLista       = new EventListController();
+	private NewEventController    controladorNuevoEvento = new NewEventController(controladorLista);
+	private RemoveEventController controladorEliminar    = new RemoveEventController(controladorLista);
+
+
 	@Override
 	public void run()
 	{
-		// Initializes others controllers
-		eventListController.run();
-		newEventController.run();
-		
-		// Initializes HomeView
-		homeView = new HomeView(this, mainFrame);
-		addView("HomeView", homeView);
-		
-		// Displays the program window
+		controladorLista.run();
+		controladorNuevoEvento.run();
+		controladorEliminar.run();
+		vistaInicio = new HomeView(this, mainFrame);
+		addView("HomeView", vistaInicio);
 		mainFrame.setVisible(true);
 	}
-	
-	
-	//-----------------------------------------------------------------------
-	//		Getters
-	//-----------------------------------------------------------------------
-	public EventListView getEventListView()
+
+	// Recarga la tabla de "Remove Event" al entrar a esa pestaña
+	public void refrescarVistaEliminar()
 	{
-		return eventListController.getView();
+		controladorEliminar.refrescar();
 	}
-	
-	public NewEventView getNewEventView()
-	{
-		return newEventController.getView();
-	}
+
+	public NewEventView    getNewEventView()    { return controladorNuevoEvento.getView(); }
+	public EventListView   getEventListView()   { return controladorLista.getView(); }
+	public RemoveEventView getRemoveEventView() { return controladorEliminar.getView(); }
 }

@@ -74,6 +74,54 @@ public class SchedulerIO implements Model
 	}
 
 	/**
+	 * Lee el archivo events.txt y devuelve cada línea como texto plano (sin parsear).
+	 * Esto se usa en RemoveEventController para saber exactamente qué líneas borrar.
+	 * Las líneas vacías se ignoran para evitar problemas al reescribir el archivo.
+	 */
+	public List<String> getEventLines() throws Exception
+	{
+		List<String> lines = new ArrayList<>();
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(new File(DIRECTORY, FILE)));
+			String line = reader.readLine(); // Lee la primera línea
+			while (line != null) {
+				if (!line.trim().isEmpty()) lines.add(line); // Ignora líneas vacías
+				line = reader.readLine(); // Avanza a la siguiente línea
+			}
+			reader.close();
+		} catch (FileNotFoundException fnfe) {
+			notice = "File not found";
+			notifyViews();
+		} catch (Exception ex) {
+			notice = "Error reading the file";
+			notifyViews();
+		}
+		return lines;
+	}
+
+	/**
+	 * Reescribe el archivo events.txt con solo las líneas indicadas.
+	 * A diferencia de saveEvent() que usa append=true (agrega al final),
+	 * aquí se usa append=false para REEMPLAZAR todo el contenido del archivo.
+	 * Esto permite eliminar eventos específicos del archivo.
+	 */
+	public void rewriteEvents(List<String> lines) throws Exception
+	{
+		try {
+			// false = sobreescribe el archivo desde cero (no agrega al final)
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(DIRECTORY, FILE), false));
+			for (String line : lines) {
+				writer.write(line);
+				writer.newLine();
+			}
+			writer.close();
+		} catch (Exception ex) {
+			notice = "Error while writing the file";
+			notifyViews();
+		}
+	}
+
+	/**
 	 * Reads a {@link SchedulerEvent} saved in disk with name {@link #FILE}.
 	 * @return List of lists (matrix) of the events
 	 * @throws Exception If it can't read event file
